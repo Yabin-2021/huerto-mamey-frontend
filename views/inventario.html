@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Huerto el Mamey - Inventario</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-stone-100 min-h-screen flex flex-col font-sans">
+
+    <header class="bg-stone-900 text-white px-6 py-4 flex justify-between items-center shadow-md">
+        <div class="flex items-center space-x-3">
+            <span class="text-2xl">📦</span>
+            <h1 class="text-xl font-bold tracking-wide">Gestión de Inventario</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="dashboard.html" class="bg-stone-700 hover:bg-stone-600 text-white text-sm font-bold px-3 py-1.5 rounded-lg transition">
+                📊 Volver al Dashboard
+            </a>
+            <button id="btn-logout" class="text-sm bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg transition font-semibold cursor-pointer">
+                Cerrar Sesión
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 p-6 max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <section class="lg:col-span-4 bg-white p-5 rounded-2xl shadow-xs border border-stone-200 h-fit">
+            <h2 id="form-title" class="text-lg font-bold text-stone-800 mb-4 flex items-center space-x-2">
+                <span>🌱 Registrar Nuevo Café</span>
+            </h2>
+
+            <form id="product-form" class="space-y-4">
+                <input type="hidden" id="producto-id"> <div>
+                    <label class="block text-xs font-bold text-stone-600 uppercase mb-1">Nombre de la Presentación</label>
+                    <input type="text" id="nombre" required placeholder="Ej. Café Molido Tueste Oscuro (1kg)"
+                        class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-stone-600 uppercase mb-1">Categoría</label>
+                        <select id="categoria_id" required class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <option value="1">Café en Grano</option>
+                            <option value="2">Café Molido</option>
+                            <option value="3">Bebidas Preparadas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-stone-600 uppercase mb-1">U. Medida</label>
+                        <input type="text" id="unidad_medida" required placeholder="Ej. Bolsa 1kg, Pza"
+                            class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-stone-600 uppercase mb-1">Precio Compra/Costo</label>
+                        <input type="number" id="precio_compra" step="0.01" required placeholder="0.00"
+                            class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-stone-600 uppercase mb-1">Precio Venta</label>
+                        <input type="number" id="precio_venta" step="0.01" required placeholder="0.00"
+                            class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-stone-600 uppercase mb-1">Stock Actual</label>
+                        <input type="number" id="stock_actual" step="0.1" required placeholder="0.0"
+                            class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-stone-600 uppercase mb-1">Stock Mínimo</label>
+                        <input type="number" id="stock_minimo" step="0.1" required placeholder="5.0"
+                            class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+
+                <div class="pt-2 flex space-x-2">
+                    <button type="button" id="btn-cancelar" class="hidden w-1/3 bg-stone-200 hover:bg-stone-300 text-stone-700 font-bold py-2 rounded-lg text-sm transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="btn-guardar" class="flex-1 bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 rounded-lg text-sm shadow transition">
+                        Guardar Producto
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="lg:col-span-8 bg-white p-5 rounded-2xl shadow-xs border border-stone-200 flex flex-col">
+            <h2 class="text-lg font-bold text-stone-800 mb-4">📋 Catálogo General de Existencias</h2>
+            
+            <div class="overflow-x-auto flex-1">
+                <table class="w-full text-left text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-stone-50 text-stone-600 font-semibold border-b border-stone-200">
+                            <th class="p-3">Descripción</th>
+                            <th class="p-3 text-center">Categoría</th>
+                            <th class="p-3 text-right">Precio Venta</th>
+                            <th class="p-3 text-center">Stock</th>
+                            <th class="p-3 text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-inventory" class="divide-y divide-stone-100 text-stone-700">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../js/productos.js"></script>
+</body>
+</html>
