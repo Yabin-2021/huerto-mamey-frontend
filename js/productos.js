@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/productos';
+const API_URL = 'https://huerto-mamey-backend.onrender.com/';
 let modoEdicion = false;
 
 document.addEventListener('DOMContentLoaded', () => {

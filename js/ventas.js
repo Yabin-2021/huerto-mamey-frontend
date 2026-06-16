@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://huerto-mamey-backend.onrender.com/';
 let productosCache = [];
 let carrito = [];
 

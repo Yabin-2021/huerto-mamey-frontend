@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/auth';
+const API_URL = 'https://huerto-mamey-backend.onrender.com/';
 
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault(); // Evita que la página se recargue

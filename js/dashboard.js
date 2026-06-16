@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/reportes';
+const API_URL = 'https://huerto-mamey-backend.onrender.com/';
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
