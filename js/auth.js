@@ -12,8 +12,8 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     alertError.innerText = '';
 
     try {
-        // Petición POST a tu Backend en Node.js
-        const response = await fetch(`${API_URL}/login`, {
+        // Petición POST a tu Backend en Node.js (Ruta corregida con /auth/login)
+        const response = await fetch(`${API_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
