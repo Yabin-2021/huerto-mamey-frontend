@@ -362,15 +362,20 @@ function abrirTicketVisual(dataVenta, productosVendidos, metodoPago, total, camb
     `);
     
     ventanaTicket.document.close();
+
+    // 🔥 NUEVO: Hace que la ventana mande a imprimir automáticamente a la ticketera
+    setTimeout(() => {
+        ventanaTicket.print();
+    }, 300);
 }
 
 // Ocultar campo de efectivo si pagan por tarjeta/transferencia
 document.getElementById('payment-method').addEventListener('change', (e) => {
     const cashGroup = document.getElementById('cash-payment-group');
     if (e.target.value === 'efectivo') {
-        cashGroup.classList.remove('hidden');
+        cashGroup.classList.remove('flex'); // Fuerza el comportamiento flexible 
     } else {
-        cashGroup.classList.add('hidden');
+        cashGroup.classList.add('none'); // Lo oculta de verdad sin importar las clases
     }
 });
 

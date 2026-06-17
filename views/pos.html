@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Café Huerto el Mamey - Caja</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Icono para la pestaña del navegador -->
+    <link rel="icon" type="image/jpg" href="assets/img/logo.jpg">
 </head>
 <body class="bg-stone-100 min-h-screen flex flex-col font-sans">
 
@@ -15,6 +17,11 @@
         </div>
         <div class="flex items-center space-x-4">
             <span id="user-display" class="text-sm bg-amber-700 px-3 py-1 rounded-full font-medium">Cajero</span>
+            
+            <a href="dashboard.html" class="text-sm bg-amber-900 hover:bg-stone-800 px-3 py-1 rounded-lg transition font-semibold flex items-center space-x-1">
+                <span>📊 Dashboard</span>
+            </a>
+            
             <button id="btn-logout" class="text-sm bg-red-600 hover:bg-red-700 px-3 py-1 rounded-lg transition font-semibold">
                 Salir
             </button>
