@@ -1,4 +1,4 @@
-const API_URL = 'https://huerto-mamey-backend.onrender.com/api';
+const API_URL = 'https://huerto-mamey-backend.onrender.com/api/productos';
 let modoEdicion = false;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 1. OBTENER Y RENDERIZAR PRODUCTOS
 async function listarProductos() {
+    const token = localStorage.getItem('token'); // <-- Recuperamos el token
     try {
         const response = await fetch(API_URL);
         const productos = await response.json();
