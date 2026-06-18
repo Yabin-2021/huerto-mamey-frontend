@@ -1,7 +1,8 @@
 // A. Consumir el resumen de dinero ingresado hoy
 async function cargarResumenFinanciero(token) {
     try {
-        const response = await fetch(`${API_URL}/resumen`, {
+        // Forzamos un rango manual desde el 1 de junio hasta el fin de mes para ver si aparecen datos
+        const response = await fetch(`${API_URL}/resumen?fechaInicio=2026-06-01 00:00:00&fechaFin=2026-06-30 23:59:59`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         
