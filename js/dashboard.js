@@ -1,12 +1,37 @@
-// A. Consumir el resumen de dinero ingresado hoy
+// 1. CORRECCIÓN VITAL: Agregamos el prefijo '/reportes' que definiste en tu app.js
+const API_URL = 'https://huerto-mamey-backend.onrender.com/api/reportes';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    const usuarioJson = localStorage.getItem('usuario');
+
+    // Verificar protección de la página en el Frontend
+    if (!token || !usuarioJson) {
+        window.location.href = '../index.html';
+        return;
+    }
+
+    const usuario = JSON.parse(usuarioJson);
+    if (usuario.role !== 'administrador' && usuario.rol !== 'administrador') {
+        alert('Acceso denegado. Se requieren permisos de administrador.');
+        window.location.href = 'pos.html';
+        return;
+    }
+
+    // Ejecutar la carga de datos enviando el token de autorización
+    cargarResumenFinanciero(token);
+    cargarTopProductos(token);
+    cargarAlertasStock(token);
+});
+
+// A. Consumir el resumen de dinero ingresado hoy (Ya de forma dinámica)
 async function cargarResumenFinanciero(token) {
     try {
-        // Forzamos un rango manual desde el 1 de junio hasta el fin de mes para ver si aparecen datos
-        const response = await fetch(`${API_URL}/resumen?fechaInicio=2026-06-01 00:00:00&fechaFin=2026-06-30 23:59:59`, {
+        // Quitamos las fechas fijas. Al no enviarle parámetros, el Backend calculará el día actual de forma automática
+        const response = await fetch(`${API_URL}/resumen`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         
-        // Salvavidas: Si la ruta no responde un código correcto (200 OK)
         if (!response.ok) {
             throw new Error(`Error en el servidor: código ${response.status}`);
         }
@@ -59,8 +84,6 @@ async function cargarTopProductos(token) {
 // C. Consumir alertas de stock bajo
 async function cargarAlertasStock(token) {
     try {
-        // 🚨 OJO: Si tras poner esto te da error en la consola del navegador, 
-        // revisa en tu app.js de Node si la ruta es exactamente "/alertas-stock"
         const response = await fetch(`${API_URL}/alertas-stock`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -71,7 +94,6 @@ async function cargarAlertasStock(token) {
 
         const data = await response.json();
         
-        // Modificado el orden: Primero leemos de forma segura para no causar excepciones si data viene incompleto
         const totalCriticos = data && data.productos_criticos ? data.productos_criticos : 0;
         document.getElementById('lbl-alertas-count').innerText = `${totalCriticos} productos`;
         
@@ -95,7 +117,12 @@ async function cargarAlertasStock(token) {
         });
     } catch (error) {
         console.error('Error al cargar alertas:', error);
-        // Si falla la petición, al menos colocamos un mensaje amigable en la tabla
         document.getElementById('table-stock-alerts').innerHTML = `<tr><td colspan="3" class="p-4 text-center text-red-500">No se pudieron cargar las alertas. Verifica la ruta en tu Backend.</td></tr>`;
     }
 }
+
+// Botón de Logout
+document.getElementById('btn-logout').addEventListener('click', () => {
+    localStorage.clear();
+    window.location.href = '../index.html';
+});
