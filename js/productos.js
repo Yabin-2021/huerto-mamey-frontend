@@ -12,13 +12,21 @@ document.addEventListener('DOMContentLoaded', () => {
     listarProductos();
 });
 
-// 1. OBTENER Y RENDERIZAR PRODUCTOS
+// 1. OBTENER Y RENDERIZAR PRODUCTOS (CORREGIDO: Ahora envía el token)
 async function listarProductos() {
-    const token = localStorage.getItem('token'); // <-- Recuperamos el token
+    const token = localStorage.getItem('token'); 
     try {
-        const response = await fetch(API_URL);
-        const productos = await response.json();
+        const response = await fetch(API_URL, {
+            method: 'GET',
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
         
+        if (!response.ok) throw new Error(`Código de servidor: ${response.status}`);
+        
+        const productos = await response.json();
         const tbody = document.getElementById('table-inventory');
         tbody.innerHTML = '';
 
@@ -74,7 +82,7 @@ document.getElementById('product-form').addEventListener('submit', async (e) => 
 
     if (modoEdicion) {
         url = `${API_URL}/${id}`;
-        method = 'PUT';
+        method = 'PUT'; // 🚨 Nota: Si tu backend usa PATCH, cambia esta cadena a 'PATCH'
     }
 
     try {
@@ -93,9 +101,10 @@ document.getElementById('product-form').addEventListener('submit', async (e) => 
             listarProductos();
         } else {
             const data = await response.json();
-            alert(`Error: ${data.error}`);
+            alert(`Error: ${data.error || 'No se pudo actualizar el producto.'}`);
         }
     } catch (error) {
+        console.error('Error en fetch al actualizar/guardar:', error);
         alert('Error en la comunicación con el servidor.');
     }
 });
@@ -131,6 +140,8 @@ window.eliminarProducto = async function(id) {
         if (response.ok) {
             alert('Producto removido con éxito.');
             listarProductos();
+        } else {
+            console.error(`Error al eliminar. Código: ${response.status}`);
         }
     } catch (error) {
         console.error('Error al remover producto:', error);
